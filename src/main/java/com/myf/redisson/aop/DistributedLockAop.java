@@ -4,7 +4,6 @@ import com.myf.redisson.annotation.DistributedLock;
 import com.myf.redisson.constants.LockModel;
 import com.myf.redisson.exception.LockException;
 import com.myf.redisson.properties.RedissonProperties;
-import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -37,7 +36,6 @@ import java.util.concurrent.TimeUnit;
  * @author zgx
  */
 @Aspect
-@RequiredArgsConstructor
 public class DistributedLockAop {
     /**
      * 日志
@@ -54,6 +52,11 @@ public class DistributedLockAop {
 
     private final RedissonProperties redissonProperties;
     private final RedissonClient redissonClient;
+
+    public DistributedLockAop(RedissonProperties redissonProperties, RedissonClient redissonClient) {
+        this.redissonProperties = redissonProperties;
+        this.redissonClient = redissonClient;
+    }
 
     /**
      * 切入点

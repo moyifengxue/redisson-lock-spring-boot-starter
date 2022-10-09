@@ -2,7 +2,6 @@ package com.myf.redisson.config;
 
 import com.myf.redisson.aop.DistributedLockAop;
 import com.myf.redisson.properties.RedissonProperties;
-import lombok.RequiredArgsConstructor;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -11,13 +10,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableConfigurationProperties(RedissonProperties.class)
 public class RedissonConfig {
 
     private final RedissonProperties redissonProperties;
 
     private volatile RedissonClient redissonClient;
+
+    public RedissonConfig(RedissonProperties redissonProperties) {
+        this.redissonProperties = redissonProperties;
+    }
 
     @Bean(destroyMethod = "shutdown") // 服务停止后调用 shutdown 方法。
     public RedissonClient redissonClient() {

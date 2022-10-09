@@ -1,10 +1,8 @@
 package com.myf.redisson.properties;
 
 import com.myf.redisson.constants.LockModel;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Data
 @ConfigurationProperties(prefix = "spring.redisson")
 public class RedissonProperties {
     // ******************* DistributedLockAop注解相关 ******************* //
@@ -25,4 +23,52 @@ public class RedissonProperties {
     private long lockWatchdogTimeout = 30_000L;
     /** Redis地址：单机模式后期有需要调整 */
     private String address = "127.0.0.1:6379";
+
+    public long getDefaultLeaseTime() {
+        return defaultLeaseTime;
+    }
+
+    public void setDefaultLeaseTime(long defaultLeaseTime) {
+        this.defaultLeaseTime = defaultLeaseTime;
+    }
+
+    public long getDefaultWaitTime() {
+        return defaultWaitTime;
+    }
+
+    public void setDefaultWaitTime(long defaultWaitTime) {
+        this.defaultWaitTime = defaultWaitTime;
+    }
+
+    public LockModel getDefaultLockModel() {
+        return defaultLockModel;
+    }
+
+    public void setDefaultLockModel(LockModel defaultLockModel) {
+        this.defaultLockModel = defaultLockModel;
+    }
+
+    public String getRedisNameSpace() {
+        return redisNameSpace;
+    }
+
+    public void setRedisNameSpace(String redisNameSpace) {
+        this.redisNameSpace = redisNameSpace;
+    }
+
+    public long getLockWatchdogTimeout() {
+        return lockWatchdogTimeout;
+    }
+
+    public void setLockWatchdogTimeout(long lockWatchdogTimeout) {
+        this.lockWatchdogTimeout = lockWatchdogTimeout;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
