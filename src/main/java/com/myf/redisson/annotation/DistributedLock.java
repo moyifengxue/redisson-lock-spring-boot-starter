@@ -5,8 +5,6 @@ import com.myf.redisson.constants.LockModel;
 import java.lang.annotation.*;
 
 /**
- *
- *
  * 分布式锁
  */
 @Target(ElementType.METHOD)
