@@ -1,4 +1,4 @@
-package com.myf.redisson.constants;
+package com.moyifengxue.redisson.constants;
 
 /**
  * @author zgx

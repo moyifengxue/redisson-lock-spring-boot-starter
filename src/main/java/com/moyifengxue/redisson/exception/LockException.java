@@ -1,4 +1,4 @@
-package com.myf.redisson.exception;
+package com.moyifengxue.redisson.exception;
 
 public class LockException extends RuntimeException{
     public LockException() {

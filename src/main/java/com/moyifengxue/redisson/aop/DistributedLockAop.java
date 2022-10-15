@@ -1,9 +1,9 @@
-package com.myf.redisson.aop;
+package com.moyifengxue.redisson.aop;
 
-import com.myf.redisson.annotation.DistributedLock;
-import com.myf.redisson.constants.LockModel;
-import com.myf.redisson.exception.LockException;
-import com.myf.redisson.properties.RedissonProperties;
+import com.moyifengxue.redisson.constants.LockModel;
+import com.moyifengxue.redisson.exception.LockException;
+import com.moyifengxue.redisson.annotation.DistributedLock;
+import com.moyifengxue.redisson.properties.RedissonProperties;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

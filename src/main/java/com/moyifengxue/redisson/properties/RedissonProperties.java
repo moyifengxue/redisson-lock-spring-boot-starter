@@ -1,6 +1,6 @@
-package com.myf.redisson.properties;
+package com.moyifengxue.redisson.properties;
 
-import com.myf.redisson.constants.LockModel;
+import com.moyifengxue.redisson.constants.LockModel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "spring.redisson")

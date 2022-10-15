@@ -218,7 +218,7 @@ public class RedissonConfig {
 ##### 2.4 resources下创建/META-INF/spring.factories，在该文件中配置自动配置类
 
 ```yaml
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.myf.redisson.config.RedissonConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=config.com.moyifengxue.redisson.RedissonConfig
 ```
 
 #### 3. 测试

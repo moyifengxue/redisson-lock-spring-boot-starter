@@ -1,7 +1,7 @@
-package com.myf.redisson.config;
+package com.moyifengxue.redisson.config;
 
-import com.myf.redisson.aop.DistributedLockAop;
-import com.myf.redisson.properties.RedissonProperties;
+import com.moyifengxue.redisson.aop.DistributedLockAop;
+import com.moyifengxue.redisson.properties.RedissonProperties;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;

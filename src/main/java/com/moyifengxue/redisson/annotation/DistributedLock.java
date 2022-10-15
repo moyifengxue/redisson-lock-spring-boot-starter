@@ -1,6 +1,6 @@
-package com.myf.redisson.annotation;
+package com.moyifengxue.redisson.annotation;
 
-import com.myf.redisson.constants.LockModel;
+import com.moyifengxue.redisson.constants.LockModel;
 
 import java.lang.annotation.*;
 
