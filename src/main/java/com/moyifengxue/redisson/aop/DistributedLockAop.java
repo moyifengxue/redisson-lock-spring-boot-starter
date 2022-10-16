@@ -1,9 +1,9 @@
 package com.moyifengxue.redisson.aop;
 
+import com.moyifengxue.redisson.annotation.DistributedLock;
 import com.moyifengxue.redisson.constants.LockModel;
 import com.moyifengxue.redisson.exception.LockException;
-import com.moyifengxue.redisson.annotation.DistributedLock;
-import com.moyifengxue.redisson.properties.RedissonProperties;
+import com.moyifengxue.redisson.properties.DistributedLockProperties;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -50,11 +50,11 @@ public class DistributedLockAop {
      */
     private final TemplateParserContext parserContext = new TemplateParserContext();
 
-    private final RedissonProperties redissonProperties;
+    private final DistributedLockProperties distributedLockProperties;
     private final RedissonClient redissonClient;
 
-    public DistributedLockAop(RedissonProperties redissonProperties, RedissonClient redissonClient) {
-        this.redissonProperties = redissonProperties;
+    public DistributedLockAop(DistributedLockProperties distributedLockProperties, RedissonClient redissonClient) {
+        this.distributedLockProperties = distributedLockProperties;
         this.redissonClient = redissonClient;
     }
 
@@ -76,12 +76,12 @@ public class DistributedLockAop {
         String[] parameterNames = new LocalVariableTableParameterNameDiscoverer().getParameterNames(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod());
         Object[] args = proceedingJoinPoint.getArgs();
 
-        long leaseTime = distributedLock.leaseTime() == 0 ? redissonProperties.getDefaultLeaseTime() : distributedLock.leaseTime();
-        long waitTime = distributedLock.waitTime() == 0 ? redissonProperties.getDefaultWaitTime() : distributedLock.waitTime();
+        long leaseTime = distributedLock.leaseTime() == 0 ? distributedLockProperties.getDefaultLeaseTime() : distributedLock.leaseTime();
+        long waitTime = distributedLock.waitTime() == 0 ? distributedLockProperties.getDefaultWaitTime() : distributedLock.waitTime();
         // 锁模式
         LockModel lockModel = distributedLock.lockModel();
         if (lockModel.equals(LockModel.AUTO)) {
-            lockModel = Optional.ofNullable(redissonProperties.getDefaultLockModel())
+            lockModel = Optional.ofNullable(distributedLockProperties.getDefaultLockModel())
                     .orElse(keys.length > 1 ? LockModel.RED_LOCK : LockModel.REENTRANT);
         }
         if (!lockModel.equals(LockModel.MULTIPLE) && !lockModel.equals(LockModel.RED_LOCK) && keys.length > 1) {
@@ -190,7 +190,7 @@ public class DistributedLockAop {
         List<String> keys = new ArrayList<>();
         keyPrefix = StringUtils.hasLength(keyPrefix) ? keyPrefix + ":" : "";
         if (!key.contains("#")) {
-            String resultKey = redissonProperties.getRedisNameSpace() + ":" + keyPrefix + key;
+            String resultKey = distributedLockProperties.getRedisNameSpace() + ":" + keyPrefix + key;
             keys.add(resultKey);
             return keys;
         }
@@ -206,15 +206,15 @@ public class DistributedLockAop {
             if (value instanceof List) {
                 List<?> valueList = (List<?>) value;
                 for (Object o : valueList) {
-                    keys.add(redissonProperties.getRedisNameSpace() + ":" + keyPrefix + o.toString());
+                    keys.add(distributedLockProperties.getRedisNameSpace() + ":" + keyPrefix + o.toString());
                 }
             } else if (value.getClass().isArray()) {
                 Object[] obj = (Object[]) value;
                 for (Object o : obj) {
-                    keys.add(redissonProperties.getRedisNameSpace() + ":" + keyPrefix + o.toString());
+                    keys.add(distributedLockProperties.getRedisNameSpace() + ":" + keyPrefix + o.toString());
                 }
             } else {
-                keys.add(redissonProperties.getRedisNameSpace() + ":" + keyPrefix + value);
+                keys.add(distributedLockProperties.getRedisNameSpace() + ":" + keyPrefix + value);
             }
         }
         log.debug("SpEL表达式key = {},value = {}", key, keys);
