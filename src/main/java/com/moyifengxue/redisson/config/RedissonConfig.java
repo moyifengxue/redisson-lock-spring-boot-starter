@@ -19,13 +19,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -42,7 +40,6 @@ public class RedissonConfig {
     private final DistributedLockProperties distributedLockProperties;
     private final RedissonProperties redissonProperties;
     private final ApplicationContext ctx;
-
     private volatile RedissonClient redissonClient;
 
     public RedissonConfig(RedisProperties redisProperties, DistributedLockProperties distributedLockProperties, RedissonProperties redissonProperties, ApplicationContext ctx) {
@@ -76,65 +73,36 @@ public class RedissonConfig {
      * <a href="https://github.com/redisson/redisson/blob/master/redisson-spring-boot-starter/src/main/java/org/redisson/spring/starter/RedissonAutoConfiguration.java">...</a>
      *
      * @return 构建RedissonClient
-     * @throws IOException
+     * @throws IOException fromYAML
      */
     public RedissonClient redisson() throws IOException {
         Config config;
-        Method clusterMethod = ReflectionUtils.findMethod(RedisProperties.class, "getCluster");
-        Method usernameMethod = ReflectionUtils.findMethod(RedisProperties.class, "getUsername");
-        Method timeoutMethod = ReflectionUtils.findMethod(RedisProperties.class, "getTimeout");
-        Object timeoutValue = ReflectionUtils.invokeMethod(timeoutMethod, redisProperties);
+        Duration timeoutValue = redisProperties.getTimeout();
         int timeout;
         if (null == timeoutValue) {
             timeout = 10000;
-        } else if (!(timeoutValue instanceof Integer)) {
-            Method millisMethod = ReflectionUtils.findMethod(timeoutValue.getClass(), "toMillis");
-            timeout = ((Long) ReflectionUtils.invokeMethod(millisMethod, timeoutValue)).intValue();
         } else {
-            timeout = (Integer) timeoutValue;
+            timeout = ((Long) timeoutValue.toMillis()).intValue();
         }
 
-        String username = null;
-        if (usernameMethod != null) {
-            username = (String) ReflectionUtils.invokeMethod(usernameMethod, redisProperties);
-        }
+        String username = redisProperties.getUsername();
 
         if (redissonProperties.getConfig() != null) {
             try {
                 config = Config.fromYAML(redissonProperties.getConfig());
             } catch (IOException e) {
-                try {
-                    config = Config.fromJSON(redissonProperties.getConfig());
-                } catch (IOException e1) {
-                    e1.addSuppressed(e);
-                    throw new IllegalArgumentException("Can't parse config", e1);
-                }
+                throw new IllegalArgumentException("Can't parse config", e);
             }
         } else if (redissonProperties.getFile() != null) {
             try {
                 InputStream is = getConfigStream();
                 config = Config.fromYAML(is);
             } catch (IOException e) {
-                // trying next format
-                try {
-                    InputStream is = getConfigStream();
-                    config = Config.fromJSON(is);
-                } catch (IOException e1) {
-                    e1.addSuppressed(e);
-                    throw new IllegalArgumentException("Can't parse config", e1);
-                }
+                throw new IllegalArgumentException("Can't parse config", e);
             }
         } else if (redisProperties.getSentinel() != null) {
-            Method nodesMethod = ReflectionUtils.findMethod(RedisProperties.Sentinel.class, "getNodes");
-            Object nodesValue = ReflectionUtils.invokeMethod(nodesMethod, redisProperties.getSentinel());
-
-            String[] nodes;
-            if (nodesValue instanceof String) {
-                nodes = convert(Arrays.asList(((String) nodesValue).split(",")));
-            } else {
-                nodes = convert((List<String>) nodesValue);
-            }
-
+            List<String> nodesValue = redisProperties.getSentinel().getNodes();
+            String[] nodes = convert(nodesValue);
             config = new Config();
             config.useSentinelServers()
                     .setMasterName(redisProperties.getSentinel().getMaster())
@@ -143,13 +111,9 @@ public class RedissonConfig {
                     .setConnectTimeout(timeout)
                     .setUsername(username)
                     .setPassword(redisProperties.getPassword());
-        } else if (clusterMethod != null && ReflectionUtils.invokeMethod(clusterMethod, redisProperties) != null) {
-            Object clusterObject = ReflectionUtils.invokeMethod(clusterMethod, redisProperties);
-            Method nodesMethod = ReflectionUtils.findMethod(clusterObject.getClass(), "getNodes");
-            List<String> nodesObject = (List) ReflectionUtils.invokeMethod(nodesMethod, clusterObject);
-
+        } else if (redisProperties.getCluster() != null) {
+            List<String> nodesObject = redisProperties.getCluster().getNodes();
             String[] nodes = convert(nodesObject);
-
             config = new Config();
             config.useClusterServers()
                     .addNodeAddress(nodes)
@@ -159,11 +123,9 @@ public class RedissonConfig {
         } else {
             config = new Config();
             String prefix = REDIS_PROTOCOL_PREFIX;
-            Method method = ReflectionUtils.findMethod(RedisProperties.class, "isSsl");
-            if (method != null && (Boolean) ReflectionUtils.invokeMethod(method, redisProperties)) {
+            if (redisProperties.isSsl()) {
                 prefix = REDISS_PROTOCOL_PREFIX;
             }
-
             config.useSingleServer()
                     .setAddress(prefix + redisProperties.getHost() + ":" + redisProperties.getPort())
                     .setConnectTimeout(timeout)
