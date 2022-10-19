@@ -1,9 +1,9 @@
-package com.moyifengxue.redisson.config;
+package io.github.moyifengxue.redisson.config;
 
-import com.moyifengxue.redisson.aop.DistributedLockAop;
-import com.moyifengxue.redisson.customize.RedissonAutoConfigurationCustomizer;
-import com.moyifengxue.redisson.properties.DistributedLockProperties;
-import com.moyifengxue.redisson.properties.RedissonProperties;
+import io.github.moyifengxue.redisson.aop.DistributedLockAop;
+import io.github.moyifengxue.redisson.customize.RedissonAutoConfigurationCustomizer;
+import io.github.moyifengxue.redisson.properties.DistributedLockProperties;
+import io.github.moyifengxue.redisson.properties.RedissonProperties;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;

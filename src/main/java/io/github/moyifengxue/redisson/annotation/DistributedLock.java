@@ -1,6 +1,6 @@
-package com.moyifengxue.redisson.annotation;
+package io.github.moyifengxue.redisson.annotation;
 
-import com.moyifengxue.redisson.constants.LockModel;
+import io.github.moyifengxue.redisson.constants.LockModel;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.moyifengxue.redisson.customize;
+package io.github.moyifengxue.redisson.customize;
 
 import org.redisson.config.Config;
 

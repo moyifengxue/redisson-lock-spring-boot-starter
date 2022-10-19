@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.moyifengxue.redisson.config.RedissonConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.moyifengxue.redisson.config.RedissonConfig

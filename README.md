@@ -12,7 +12,7 @@
 1. 引入依赖
 ```xml
 <dependency>
-   <groupId>com.moyifengxue</groupId>
+   <groupId>io.github.moyifengxue</groupId>
    <artifactId>redisson-lock-spring-boot-starter</artifactId>
    <version>2.7.4</version>
 </dependency>

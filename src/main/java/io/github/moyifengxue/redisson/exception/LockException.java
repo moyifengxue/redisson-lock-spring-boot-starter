@@ -1,4 +1,4 @@
-package com.moyifengxue.redisson.exception;
+package io.github.moyifengxue.redisson.exception;
 
 public class LockException extends RuntimeException{
     public LockException() {

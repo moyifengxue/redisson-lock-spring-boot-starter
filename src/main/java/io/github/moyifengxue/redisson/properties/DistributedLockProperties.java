@@ -1,6 +1,6 @@
-package com.moyifengxue.redisson.properties;
+package io.github.moyifengxue.redisson.properties;
 
-import com.moyifengxue.redisson.constants.LockModel;
+import io.github.moyifengxue.redisson.constants.LockModel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "spring.redis.distributed.lock")

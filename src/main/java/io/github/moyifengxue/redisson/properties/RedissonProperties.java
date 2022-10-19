@@ -1,4 +1,4 @@
-package com.moyifengxue.redisson.properties;
+package io.github.moyifengxue.redisson.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

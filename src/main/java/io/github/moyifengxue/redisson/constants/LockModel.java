@@ -1,4 +1,4 @@
-package com.moyifengxue.redisson.constants;
+package io.github.moyifengxue.redisson.constants;
 
 /**
  * @author zgx
