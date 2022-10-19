@@ -12,9 +12,9 @@
 1. 引入依赖
 ```xml
 <dependency>
-    <groupId>com.myf</groupId>
-    <artifactId>redisson-lock-spring-boot-starter</artifactId>
-    <version>2.7.4</version>
+   <groupId>com.moyifengxue</groupId>
+   <artifactId>redisson-lock-spring-boot-starter</artifactId>
+   <version>2.7.4</version>
 </dependency>
 ```
 2. 将设置添加到application.yaml中
