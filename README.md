@@ -14,7 +14,7 @@
 <dependency>
    <groupId>io.github.moyifengxue</groupId>
    <artifactId>redisson-lock-spring-boot-starter</artifactId>
-   <version>2.7.4</version>
+   <version>2.7.4.0</version>
 </dependency>
 ```
 2. 将设置添加到application.yaml中
