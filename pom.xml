@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.moyifengxue</groupId>
     <artifactId>redisson-lock-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>2.7.4.0</version>
     <packaging>jar</packaging>
     <name>redisson-lock-spring-boot-starter</name>
     <url>https://github.com/moyifengxue/redisson-lock-spring-boot-starter</url>
@@ -84,6 +84,17 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
